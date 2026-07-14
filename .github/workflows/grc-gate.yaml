@@ -79,7 +79,7 @@ jobs:
         if: always()
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
-          tfsec . --config-file ../../../.tfsec/config.yml --format sarif --out ../../../evidence/tfsec.sarif || true
+          tfsec . --config-file ../../../.tfsec/config.yaml --format sarif --out ../../../evidence/tfsec.sarif || true
           python3 -c '
           import json, sys
           d = json.load(open("../../../evidence/tfsec.sarif"))
