@@ -1,0 +1,10 @@
+# Terraform local state and plugin cache (never commit)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
