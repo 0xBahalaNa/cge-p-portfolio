@@ -13,6 +13,8 @@ permissions:
 env:
   AWS_REGION: us-east-1
   TF_WORKING_DIR: terraform/primitives/compliant-s3
+  TF_VAR_project_name: cgep
+  TF_VAR_environment: dev
 
 jobs:
   grc-gate:
