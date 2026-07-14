@@ -1,0 +1,4 @@
+# Lab 4.3 troubleshooting: centralize tfsec exclusions here (not --exclude in the workflow).
+exclude:
+  # Lab 2.3 SC-28 baseline uses AES-256. Customer-managed keys (CMK/CMEK) are Lab 2.4 / CJIS.
+  - aws-s3-encryption-customer-key
