@@ -12,7 +12,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  TF_WORKING_DIR: terraform
+  TF_WORKING_DIR: terraform/primitives/compliant-s3
 
 jobs:
   grc-gate:
@@ -54,19 +54,19 @@ jobs:
         id: conftest
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
-          mkdir -p ../evidence
+          mkdir -p ../../../evidence
           {
             echo "["
             FIRST=1
             for ns in compliance.sc28_aws compliance.ac3_aws compliance.cm6_aws compliance.cm6 ; do
               [[ $FIRST -eq 1 ]] && FIRST=0 || printf ","
-              conftest test --policy ../policies --namespace "$ns" --output=json plan.json || true
+              conftest test --policy ../../../policies --namespace "$ns" --output=json plan.json || true
             done
             echo "]"
-          } > ../evidence/conftest-results.json
+          } > ../../../evidence/conftest-results.json
           python3 -c '
           import json, sys
-          d = json.load(open("../evidence/conftest-results.json"))
+          d = json.load(open("../../../evidence/conftest-results.json"))
           fails = sum(len(r.get("failures") or []) for results in d for r in results)
           print(f"conftest failures: {fails}")
           sys.exit(0 if fails == 0 else 1)
@@ -77,10 +77,10 @@ jobs:
         if: always()
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
-          tfsec . --format sarif --out ../evidence/tfsec.sarif || true
+          tfsec . --format sarif --out ../../../evidence/tfsec.sarif || true
           python3 -c '
           import json, sys
-          d = json.load(open("../evidence/tfsec.sarif"))
+          d = json.load(open("../../../evidence/tfsec.sarif"))
           high = sum(
               1 for run in d.get("runs", [])
               for r in run.get("results", [])
